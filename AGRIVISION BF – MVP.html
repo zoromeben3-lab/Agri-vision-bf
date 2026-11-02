@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>AGRIVISION BF – MVP</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;700&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#f1f4ec;--card:#fff;--ink:#18271e;--mut:#5b6a60;--g:#2d6a3e;--gold:#b9801a;--red:#b3261e;--line:#d8dfd2;--gl:#e3efe4}
+:root:not([data-theme="light"]){}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1913;--card:#16231b;--ink:#e8efe9;--mut:#9db0a3;--g:#6fbf84;--gold:#e0b04a;--red:#f08a80;--line:#2a3a30;--gl:#1d3426}}
+:root[data-theme="dark"]{--bg:#0f1913;--card:#16231b;--ink:#e8efe9;--mut:#9db0a3;--g:#6fbf84;--gold:#e0b04a;--red:#f08a80;--line:#2a3a30;--gl:#1d3426}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*:before,*:after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 "Bricolage Grotesque",system-ui,sans-serif}
+header{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;padding:14px 18px;background:var(--g);color:#fff}
+:root:not([data-theme="light"]) header{}
+header h1{margin:0;font-size:20px;letter-spacing:.2px}header small{display:block;opacity:.85;font-size:13px}
+.ctl{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+select,input,button,textarea{font:inherit;color:inherit}
+select,input,textarea{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:8px 10px;min-width:0;width:100%}
+header select{width:auto;color:var(--ink)}
+button{border:0;border-radius:8px;padding:9px 14px;background:var(--g);color:#fff;cursor:pointer;font-weight:600}
+:root[data-theme="dark"] button{color:#0f1913}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) button{color:#0f1913}}
+button.alt{background:transparent;color:var(--g);border:1px solid var(--g)}
+button.sm{padding:5px 10px;font-size:14px}
+button:disabled{opacity:.5;cursor:not-allowed}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.net{background:rgba(255,255,255,.18);color:#fff;border:1px solid rgba(255,255,255,.5)}
+.net.off{background:var(--gold);color:#1a1200;border-color:var(--gold)}
+nav{display:flex;gap:4px;overflow-x:auto;padding:0 12px;background:var(--card);border-bottom:1px solid var(--line)}
+nav button{background:none;color:var(--mut);border-radius:0;border-bottom:3px solid transparent;white-space:nowrap}
+nav button.on{color:var(--g);border-color:var(--g)}
+main{max-width:1000px;margin:0 auto;padding:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:16px}
+h2{margin:0 0 10px;font-size:18px}h3{margin:14px 0 6px;font-size:15px;color:var(--mut)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;align-items:end}
+label{font-size:13px;color:var(--mut);display:block}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:16px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px}
+.kpi b{display:block;font-size:26px;line-height:1.1}.kpi span{font-size:13px;color:var(--mut)}
+.bar{display:flex;align-items:center;gap:8px;margin:5px 0;font-size:14px}.bar i{display:block;height:14px;border-radius:4px;background:var(--g)}.bar i.p{background:var(--gold)}
+.bar em{width:62px;font-style:normal;flex:none}
+table{width:100%;border-collapse:collapse;font-size:14px}
+.tw{overflow-x:auto}
+th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:middle}th{color:var(--mut);font-weight:600}
+.b{display:inline-block;padding:1px 9px;border-radius:99px;font-size:12px;background:var(--gl);color:var(--g)}
+.b.w{background:#f6e6c4;color:#6b4800}.b.r{background:#f7d9d6;color:#8a1a13}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .b.w{background:#4a3a12;color:#f0cf80}:root:not([data-theme="light"]) .b.r{background:#4d1f1b;color:#f5b3ab}}
+.note{background:var(--gl);border-left:4px solid var(--g);padding:10px 12px;border-radius:6px;margin:0 0 16px}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;align-items:center}
+.lot{display:flex;gap:14px;align-items:center;flex-wrap:wrap;border-top:1px solid var(--line);padding:10px 0}
+.lot svg{width:84px;height:84px;background:#fff;padding:4px;border-radius:6px}
+.login{max-width:440px;margin:24px auto}.login form{display:grid;gap:10px}#who{font-size:14px}
+#toast{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:10px;max-width:90vw;opacity:0;pointer-events:none;transition:opacity .2s}
+#toast.on{opacity:1}
+footer{text-align:center;color:var(--mut);font-size:13px;padding:8px 16px 28px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header>
+  <div><h1>AGRIVISION BF</h1><small>Observatoire agricole national · MVP de démonstration</small></div>
+  <div class="ctl">
+    <span id="who"></span><button id="out" class="net" type="button" onclick="logout()">Déconnexion</button>
+    <button id="net" class="net" type="button"></button>
+  </div>
+</header>
+<nav id="nav" aria-label="Sections"></nav>
+<main id="main"></main>
+<footer>Données de démonstration stockées localement dans ce navigateur. <button class="alt sm" type="button" onclick="resetAll()">Réinitialiser la démo</button></footer>
+<div id="toast" role="status" aria-live="polite"></div>
+<script>
+const K='agrivision.mvp.4';
+const ROLES={
+ agent:{n:'Agent de terrain',who:'Agent A. Sawadogo',tabs:[['collecte','Collecte'],['lots','Campagne et lots'],['dist','Distribution'],['journal','Historique']]},
+ reg:{n:'Responsable régional',who:'Resp. Hauts-Bassins',tabs:[['reg','Tableau régional'],['prod','Producteurs'],['alloc','Allocation d’engrais'],['alertes','Alertes'],['journal','Historique']]},
+ nat:{n:'Niveau national',who:'Cellule nationale',tabs:[['nat','Tableau national'],['journal','Historique']]}};
+const CUL=['Maïs','Sorgho','Coton','Mil','Riz'];
+const REF={Maïs:[600,3500],Sorgho:[300,1800],Coton:[500,2000],Mil:[300,1200],Riz:[800,4500]};
+const TYP={Maïs:1800,Sorgho:1000,Coton:1100,Mil:800,Riz:2500};
+const SIM=[['Boucle du Mouhoun',1240,6100,5400],['Centre-Ouest',980,4300,3900],['Cascades',760,3900,3100],['Est',690,3200,2300]];
+const NOMS=['Ouédraogo','Traoré','Sawadogo','Ouattara','Kaboré','Sanou','Zongo','Compaoré','Bambara','Konaté','Coulibaly','Sankara'];
+const PRE=['Adama','Fatoumata','Issa','Aminata','Moussa','Salif','Awa','Boureima','Mariam','Seydou','Rasmata','Lassina'];
+const USERS=[
+{id:'agent.sawadogo',name:'Agent A. Sawadogo',role:'agent',zone:'Koumbia',h:'81c7e29e1f8df56d845a22050cd9f630bb9d64812a95a7f4d028a544161cdb90'},
+{id:'agent.traore',name:'Agent M. Traoré',role:'agent',zone:'Karangasso-Vigué',h:'267da70e943c9e88f73b80a8bdbd0bdd1f5612e1efed0e02d80b6bd9c492d804'},
+{id:'resp.hautsbassins',name:'Resp. Hauts-Bassins',role:'reg',zone:null,h:'83f3980fa07166a0f32fe26750ddab7ef6185545deee05906a5f7ea706054f23'},
+{id:'national',name:'Cellule nationale',role:'nat',zone:null,h:'5ce55d4f84708d8d58ab69b8a91e8b859d5fc362bb36ba539c9521d64c5b8c3e'}];
+const cur=()=>USERS.find(u=>u.id==S.user);
+const mine=()=>{const u=cur();return u&&u.role=='agent'?S.P.filter(p=>p.z==u.zone):S.P};
+const mineL=()=>{const ids=new Set(mine().map(p=>p.id));return S.L.filter(l=>ids.has(l.pid))};
+async function sha(t){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(t));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}
+async function login(e){e.preventDefault();const f=e.target,id=f.u.value.trim().toLowerCase(),u=USERS.find(x=>x.id==id);
+ S.lock=S.lock||{};S.fail=S.fail||{};
+ if(S.lock[id]>Date.now()){toast('Compte verrouillé. Réessayez dans '+Math.ceil((S.lock[id]-Date.now())/1000)+' s.');return}
+ let h;try{h=await sha(id+':'+f.p.value)}catch(x){toast('Navigateur non compatible (chiffrement indisponible).');return}
+ if(!u||u.h!=h){S.fail[id]=(S.fail[id]||0)+1;S.Jr.unshift({t:new Date().toISOString(),who:id||'?',u:id,act:'CONNEXION ÉCHEC',det:'Tentative '+S.fail[id]+'/3'});
+  if(S.fail[id]>=3){S.lock[id]=Date.now()+30000;S.fail[id]=0;toast('Trois échecs : compte verrouillé 30 secondes.')}else toast('Identifiant ou mot de passe incorrect.');save();return}
+ S.fail[id]=0;S.user=u.id;S.role=u.role;S.tab=ROLES[u.role].tabs[0][0];log('CONNEXION','Connexion réussie · '+ROLES[u.role].n);save();render()}
+function logout(){go(()=>{log('DÉCONNEXION','Fin de session');S.user=null;S.role=null})}
+function fill(id){$('#u').value=id;$('#p').value='Faso2026'}
+/* Référentiel territorial de démonstration (villages fictifs à remplacer par le référentiel officiel) */
+const TERR={Houet:{'Karangasso-Vigué':['Karangasso-centre','Karangasso-Ouest']},Tuy:{Koumbia:['Koumbia-centre','Koumbia-Nord','Koumbia-Est']}};
+const prov=c=>Object.keys(TERR).find(p=>TERR[p][c])||'?';
+const DIF=['Aucune','Pénurie d’engrais','Pluies insuffisantes ou en retard','Inondation','Ravageurs ou maladies','Manque de tracteur','Insécurité ou déplacement'];
+const PL={Maïs:300,Sorgho:150,Coton:250,Mil:100,Riz:300}; /* plafonds indicatifs d'engrais (kg/ha) : à remplacer par les références agronomiques officielles */
+const now=()=>new Date().toISOString();
+const hist=(p,act,det)=>p.h.push({t:now(),who:cur().name,act,det});
+const nw=o=>({...o,hr:null,kg:null,d:null,di:0,z:cur().zone,by:S.user,t:now(),h:[{t:now(),who:cur().name,act:'CRÉATION',det:'Recensement'}],srv:null});
+const held=p=>S.A.some(a=>a.pid==p.id&&a.ty=='besoin'&&a.st!='Vérifiée');
+const aname=id=>(USERS.find(u=>u.id==id)||{name:'?'}).name;
+let S;
+const $=s=>document.querySelector(s);
+const fmt=n=>Math.round(n).toLocaleString('fr-FR');
+const uid=()=>Math.random().toString(36).slice(2,9)+Date.now().toString(36).slice(-4);
+const core=p=>({id:p.id,nom:p.nom,c:p.c,hp:p.hp,e:p.e,l:p.l,hr:p.hr,kg:p.kg,z:p.z,d:p.d,di:p.di,v:p.v});
+const lcore=l=>({id:l.id,pid:l.pid,q:l.q,d:l.d,mv:l.mv});
+const J=o=>JSON.stringify(o);
+const dirtyP=p=>J(core(p))!==J(p.srv);
+const dirtyL=l=>J(lcore(l))!==J(l.srv);
+const pend=()=>mine().filter(dirtyP).length+mineL().filter(dirtyL).length;
+function load(){try{const r=localStorage.getItem(K);if(r)return JSON.parse(r)}catch(e){}
+ return{role:null,user:null,tab:'',online:false,P:[],L:[],A:[],Jr:[],msg:''}}
+function save(){try{localStorage.setItem(K,J(S))}catch(e){}}
+function log(act,det){S.Jr.unshift({t:new Date().toISOString(),who:cur()?cur().name:'—',u:S.user,act,det})}
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(toast.h);toast.h=setTimeout(()=>t.classList.remove('on'),3200)}
+function go(fn){fn();save();render()}
+function resetAll(){if(confirm('Effacer toutes les données de démonstration ?')){try{localStorage.removeItem(K)}catch(e){}S=load();render()}}
+
+/* ---------- Synchronisation et contrôles de cohérence ---------- */
+function sync(){
+ if(!S.online){toast('Hors-ligne : '+pend()+' enregistrement(s) conservés sur le terminal.');return 0}
+ let n=0,rej=0;
+ mine().filter(dirtyP).forEach(p=>{if(!p.nom||!(p.hp>0)||(p.hr!=null&&p.hr<0)){rej++;return}p.srv=core(p);n++});
+ mineL().filter(dirtyL).forEach(l=>{const p=S.P.find(x=>x.id==l.pid);
+  if(!p||!p.srv||l.d<0||l.d>l.q||l.q>p.srv.kg){rej++;return}l.srv=JSON.parse(J(lcore(l)));n++});
+ if(n||rej)log('SYNCHRONISATION',n+' enregistrement(s) validés par le serveur'+(rej?', '+rej+' rejeté(s)':''));
+ let na=0;const add=(p,ty,msg)=>{if(!S.A.some(a=>a.pid==p.id&&a.ty==ty)){S.A.push({id:uid(),pid:p.id,ty,msg,st:'À vérifier',just:''});na++}};
+ const seen={};
+ S.P.filter(p=>p.srv).forEach(p=>{const q=p.srv,k=(q.nom+'|'+q.z).toLowerCase();
+  if(seen[k])add(p,'doublon','Doublon possible avec un autre enregistrement (même nom, même zone).');else seen[k]=p;
+  if(q.e>q.hp*PL[q.c]*1.2)add(p,'besoin','Besoin en engrais de '+fmt(q.e)+' kg pour '+q.hp+' ha de '+q.c+' : au-delà de 120 % du plafond indicatif ('+PL[q.c]+' kg/ha).');
+  if(q.kg!=null){const y=q.kg/q.hr,r=REF[q.c];
+   if(q.hr>q.hp*1.5)add(p,'sup','Superficie réelle ('+q.hr+' ha) très supérieure à la superficie prévue ('+q.hp+' ha).');
+   else if(y>r[1]||y<r[0])add(p,'rend','Rendement de '+fmt(y)+' kg/ha pour '+q.c+' hors de la plage habituelle ('+r[0]+'–'+r[1]+').')}});
+ if(na)log('ALERTE',na+' incohérence(s) détectée(s), vérification humaine requise');
+ save();
+ toast(n?n+' enregistrement(s) synchronisés'+(na?' · '+na+' alerte(s) créée(s)':''):(rej?rej+' rejeté(s) par le serveur':'Rien à synchroniser'));
+ return n}
+
+/* ---------- Actions terrain ---------- */
+function addProd(e){e.preventDefault();const f=e.target,v=k=>f[k].value;
+ const p=nw({id:uid(),nom:v('nom').trim(),v:v('v'),c:v('c'),hp:+v('hp'),e:+v('e')||0,l:+v('l')||0,});
+ if(!p.nom||!(p.hp>0)){toast('Nom et superficie prévue (> 0) obligatoires.');return}
+ go(()=>{S.P.push(p);log('CRÉATION','Producteur '+p.nom+' · '+p.c+' · '+p.hp+' ha')});
+ toast('Producteur enregistré sur le terminal'+(S.online?'':' (hors-ligne)'));}
+function demo100(){go(()=>{const VIL=TERR[prov(cur().zone)][cur().zone];for(let i=0;i<100;i++){const hp=i%2?6:4,c=CUL[i%5];
+ S.P.push(nw({id:uid(),nom:PRE[i%12]+' '+NOMS[(i*7+Math.floor(i/12))%12],c,hp,e:hp*100,l:i%2?hp:0,v:VIL[i%VIL.length]}))}
+ log('CRÉATION','Recensement hors-ligne de 100 producteurs (500 ha prévus)')});
+ toast('100 producteurs saisis sur le terminal. Rétablissez la connexion pour synchroniser.')}
+function demoCampagne(){let n=0;go(()=>{mine().filter(p=>p.kg==null).forEach((p,i)=>{
+ p.hr=+(p.hp*(0.92+(i%5)*0.04)).toFixed(1);p.kg=Math.round(p.hr*TYP[p.c]*(0.85+(i%7)*0.05));p.d=DIF[i%9<DIF.length?i%9:0];hist(p,'MISE À JOUR','Résultat de campagne saisi');n++});
+ log('MISE À JOUR',n+' résultats de campagne saisis (superficies réelles et production)')});toast(n+' résultats saisis')}
+function incoh(){const p=mine().find(x=>x.kg!=null&&!S.A.some(a=>a.pid==x.id));
+ if(!p){toast("Saisissez d'abord des résultats de campagne.");return}
+ go(()=>{p.hr=p.hp;p.kg=Math.round(p.hp*REF[p.c][1]*2.4);log('MISE À JOUR','Donnée volontairement incohérente pour '+p.nom)});
+ toast('Incohérence injectée pour '+p.nom+'. Synchronisez pour lancer le contrôle.')}
+function addRes(e){e.preventDefault();const f=e.target,p=S.P.find(x=>x.id==f.pid.value);if(!p)return;
+ const hr=+f.hr.value,kg=+f.kg.value;if(!(hr>0)||!(kg>=0)){toast('Superficie réelle et production à renseigner.');return}
+ go(()=>{p.hr=hr;p.kg=kg;p.d=f.d.value;hist(p,'MISE À JOUR',hr+' ha, '+fmt(kg)+' kg · difficulté : '+p.d);log('MISE À JOUR','Résultat '+p.nom+' : '+hr+' ha, '+fmt(kg)+' kg')})}
+function addLot(e){e.preventDefault();const f=e.target,p=S.P.find(x=>x.id==f.pid.value);if(!p)return;const q=+f.q.value;
+ const used=S.L.filter(l=>l.pid==p.id).reduce((s,l)=>s+l.q,0);
+ if(!(q>0)||q>p.kg-used){toast('Quantité invalide : '+fmt(Math.max(0,p.kg-used))+' kg encore disponibles pour ce producteur.');return}
+ go(()=>{const l={id:'LOT-'+uid().slice(0,6).toUpperCase(),pid:p.id,q,d:q,mv:[{t:new Date().toISOString(),type:'Création',qte:q}],srv:null};
+ S.L.push(l);log('CRÉATION','Lot '+l.id+' · '+fmt(q)+' kg · '+p.nom)})}
+function sell(id){const l=S.L.find(x=>x.id==id),q=+$('#s'+id).value;
+ if(!(q>0)||q>l.d){toast('Quantité indisponible : '+fmt(l.d)+' kg restants dans ce lot.');return}
+ go(()=>{l.d-=q;l.mv.push({t:new Date().toISOString(),type:'Vente simulée',qte:-q});log('MOUVEMENT','Lot '+id+' : vente simulée de '+fmt(q)+' kg')})}
+function justify(id){const a=S.A.find(x=>x.id==id),t=$('#j'+id).value.trim();if(!t){toast('Saisissez une justification.');return}
+ go(()=>{a.just=t;a.st='Justifiée';log('JUSTIFICATION','Alerte '+id+' justifiée par l’agent')})}
+function setAlert(id,st){const a=S.A.find(x=>x.id==id);go(()=>{a.st=st;log('ALERTE','Alerte '+id+' → '+st)})}
+function sendMsg(e){e.preventDefault();const t=e.target.m.value.trim();go(()=>{S.msg=t;log('ORIENTATION','Message national aux régions : '+t)})}
+
+/* ---------- Agrégats (données validées par le serveur uniquement) ---------- */
+function agg(){const P=S.P.filter(p=>p.srv).map(p=>p.srv);
+ const sum=(f)=>P.reduce((s,p)=>s+(f(p)||0),0);
+ const by={};CUL.forEach(c=>by[c]={n:0,hp:0,kg:0});
+ P.forEach(p=>{const b=by[p.c];b.n++;b.hp+=p.hp;b.kg+=p.kg||0});
+ return{n:P.length,hp:sum(p=>p.hp),hr:sum(p=>p.hr),e:sum(p=>p.e),l:sum(p=>p.l),kg:sum(p=>p.kg),by,
+  lots:S.L.filter(l=>l.srv).length,mv:S.L.filter(l=>l.srv).reduce((s,l)=>s+l.srv.mv.length,0)}}
+const kp=(v,l)=>`<div class="kpi"><b>${v}</b><span>${l}</span></div>`;
+const pname=id=>(S.P.find(p=>p.id==id)||{nom:'?'}).nom;
+const stCls=s=>s=='Vérifiée'?'':s=='À corriger'?' r':' w';
+
+/* ---------- Vues ---------- */
+const V={};
+V.login=()=>`<section class="card login"><h2>Connexion</h2><p>Accès réservé aux agents et responsables habilités. Chaque connexion est journalisée.</p>
+ <form onsubmit="login(event)"><div><label for="u">Identifiant</label><input id="u" name="u" autocomplete="username" required></div>
+ <div><label for="p">Mot de passe</label><input id="p" name="p" type="password" autocomplete="current-password" required></div>
+ <div class="row"><button>Se connecter</button></div></form>
+ <h3>Comptes de démonstration (mot de passe : Faso2026)</h3><div class="row">${USERS.map(u=>`<button class="alt sm" type="button" onclick="fill('${u.id}')">${u.name}</button>`).join('')}</div></section>`;
+V.collecte=()=>{const pj=S.A.filter(a=>a.st=='Justification demandée'&&mine().some(p=>p.id==a.pid));
+ return `${S.msg?`<p class="note"><b>Orientation nationale :</b> ${esc(S.msg)}</p>`:''}
+ <p class="note"><b>Zone affectée :</b> Hauts-Bassins › ${prov(cur().zone)} › ${cur().zone}. Terminal ${S.online?'connecté':'hors-ligne'} · <b>${pend()}</b> enregistrement(s) en attente de synchronisation.</p>
+ ${pj.map(a=>`<div class="card"><h2>Justification demandée</h2><p>${esc(pname(a.pid))} : ${esc(a.msg)}</p>
+  <label for="j${a.id}">Votre justification</label><textarea id="j${a.id}" rows="2"></textarea>
+  <div class="row"><button type="button" onclick="justify('${a.id}')">Envoyer la justification</button></div></div>`).join('')}
+ <section class="card"><h2>Recenser un producteur</h2>
+ <form class="grid" onsubmit="addProd(event)">
+  <div><label>Nom</label><input name="nom" required></div>
+  <div><label>Village</label><select name="v">${TERR[prov(cur().zone)][cur().zone].map(x=>`<option>${x}</option>`).join('')}</select></div>
+  <div><label>Culture prévue</label><select name="c">${CUL.map(c=>`<option>${c}</option>`).join('')}</select></div>
+  <div><label>Superficie prévue (ha)</label><input name="hp" type="number" min="0.1" step="0.1" required></div>
+  <div><label>Engrais (kg)</label><input name="e" type="number" min="0"></div>
+  <div><label>Superficie à labourer au tracteur (ha)</label><input name="l" type="number" min="0"></div>
+  <button>Enregistrer</button></form>
+ <div class="row"><button class="alt" type="button" onclick="demo100()">Recenser 100 producteurs (démo)</button>
+ <button class="alt" type="button" onclick="entente()">Simuler une entente sur les besoins (démo)</button>
+ <button type="button" onclick="go(sync)">Synchroniser (${pend()})</button></div></section>
+ <section class="card"><h2>Derniers enregistrements</h2>${mine().length?`<div class="tw"><table><tr><th>Producteur</th><th>Culture</th><th>ha prévus</th><th>État</th></tr>
+ ${mine().slice(-8).reverse().map(p=>`<tr><td>${esc(p.nom)}</td><td>${p.c}</td><td>${p.hp}</td><td><span class="b${dirtyP(p)?' w':''}">${dirtyP(p)?'En attente':'Synchronisé'}</span></td></tr>`).join('')}</table></div>`:'<p>Aucun producteur recensé. Saisissez-en un ou lancez le recensement de démonstration.</p>'}</section>`};
+V.lots=()=>{const sansR=mine().filter(p=>p.kg==null),avecR=mine().filter(p=>p.kg!=null);
+ return `<section class="card"><h2>Résultats de campagne</h2>
+ <form class="grid" onsubmit="addRes(event)">
+  <div><label>Producteur</label><select name="pid">${sansR.map(p=>`<option value="${p.id}">${esc(p.nom)} · ${p.c}</option>`).join('')||'<option value="">Aucun producteur sans résultat</option>'}</select></div>
+  <div><label>Superficie réelle (ha)</label><input name="hr" type="number" step="0.1" min="0.1"></div>
+  <div><label>Production (kg)</label><input name="kg" type="number" min="0"></div><div><label>Difficulté de campagne</label><select name="d">${DIF.map(d=>`<option>${d}</option>`).join('')}</select></div><button>Enregistrer</button></form>
+ <div class="row"><button class="alt" type="button" onclick="demoCampagne()">Saisir les résultats (démo)</button>
+ <button class="alt" type="button" onclick="incoh()">Injecter une donnée incohérente (démo)</button>
+ <button type="button" onclick="go(sync)">Synchroniser (${pend()})</button></div></section>
+ <section class="card"><h2>Créer un lot suivi</h2>
+ <form class="grid" onsubmit="addLot(event)">
+  <div><label>Producteur</label><select name="pid">${avecR.map(p=>`<option value="${p.id}">${esc(p.nom)} · ${fmt(p.kg)} kg</option>`).join('')||'<option value="">Saisissez d’abord les résultats</option>'}</select></div>
+  <div><label>Quantité du lot (kg)</label><input name="q" type="number" min="1"></div><button>Créer le lot et son QR code</button></form></section>
+ <section class="card"><h2>Lots (${mineL().length})</h2>${mineL().length?mineL().slice().reverse().map(lotHtml).join(''):'<p>Aucun lot. Créez-en un à partir d’une production déclarée.</p>'}</section>`};
+function lotHtml(l){let qr=l.id;try{const q=qrcode(0,'M');q.addData('AGRIVISION:'+l.id);q.make();qr=q.createSvgTag(4)}catch(e){qr='<small>'+l.id+'</small>'}
+ return `<div class="lot">${qr}<div style="flex:1;min-width:200px"><b>${l.id}</b> <span class="b${dirtyL(l)?' w':''}">${dirtyL(l)?'En attente':'Synchronisé'}</span><br>
+ ${esc(pname(l.pid))} · initial ${fmt(l.q)} kg · <b>disponible ${fmt(l.d)} kg</b><br><small>${l.mv.map(m=>m.type+' '+fmt(m.qte)+' kg').join(' → ')}</small></div>
+ <div class="row" style="margin:0"><input id="s${l.id}" type="number" min="1" placeholder="kg" style="width:90px" aria-label="Quantité vendue"><button class="alt sm" type="button" onclick="sell('${l.id}')">Vente simulée</button></div></div>`}
+V.reg=()=>{const a=agg(),mx=Math.max(1,...CUL.map(c=>a.by[c].hp));const Z={};S.P.filter(p=>p.srv).forEach(p=>{const q=p.srv,z=Z[q.z||'?']=Z[q.z||'?']||{n:0,hp:0,hr:0,kg:0};z.n++;z.hp+=q.hp;z.hr+=q.hr||0;z.kg+=q.kg||0});
+ if(!a.n)return `<p class="note">Aucune donnée reçue. L’agent doit synchroniser ses enregistrements depuis le terminal.</p>`;
+ return `${S.msg?`<p class="note"><b>Orientation nationale :</b> ${esc(S.msg)}</p>`:''}
+ <h2>Région Hauts-Bassins</h2><div class="kpis">${kp(fmt(a.n),'producteurs')}${kp(fmt(a.hp)+' ha','superficie prévue')}${kp(a.hr?fmt(a.hr)+' ha':'—','superficie réelle')}
+ ${kp(fmt(a.e/1000)+' t','besoin en engrais')}${kp(fmt(a.l)+' ha','ha à labourer au tracteur')}${kp(a.kg?fmt(a.kg/1000)+' t':'—','production déclarée')}${kp(a.lots+' / '+a.mv,'lots / mouvements')}${kp(S.A.filter(x=>x.st!='Vérifiée').length,'alertes ouvertes')}</div>
+ <section class="card"><h2>Par culture</h2>${CUL.map(c=>{const b=a.by[c];return `<div class="bar"><em>${c}</em><i style="width:${b.hp/mx*60}%"></i><span>${fmt(b.hp)} ha prévus · ${b.kg?fmt(b.kg/1000)+' t':'—'}</span></div>`}).join('')}</section>
+ ${(()=>{const D={};S.P.filter(p=>p.srv&&p.srv.d&&p.srv.d!='Aucune').forEach(p=>D[p.srv.d]=(D[p.srv.d]||0)+1);const k=Object.keys(D),m=Math.max(1,...k.map(x=>D[x]));
+ return k.length?`<section class="card"><h2>Difficultés signalées</h2>${k.map(x=>`<div class="bar"><em style="width:auto;min-width:170px">${x}</em><i class="p" style="width:${D[x]/m*40}%"></i><span>${D[x]}</span></div>`).join('')}</section>`:''})()}
+ ${terr()}`};
+V.alertes=()=>`<section class="card"><h2>Alertes d’incohérence</h2><p>Une alerte n’est pas une accusation : elle demande une vérification humaine.</p>
+ ${S.A.length?S.A.map(a=>`<div class="lot" style="display:block"><b>${esc(pname(a.pid))}</b> <span class="b${stCls(a.st)}">${a.st}</span><br>${esc(a.msg)}
+ ${a.just?`<br><i>Justification de l’agent : ${esc(a.just)}</i>`:''}
+ <div class="row">${a.st=='À vérifier'||a.st=='À corriger'?`<button class="sm" type="button" onclick="setAlert('${a.id}','Justification demandée')">Demander une justification</button>`:''}
+ ${a.st=='Justifiée'?`<button class="sm" type="button" onclick="setAlert('${a.id}','Vérifiée')">Accepter</button><button class="alt sm" type="button" onclick="setAlert('${a.id}','À corriger')">Demander une correction</button>`:''}</div></div>`).join(''):'<p>Aucune alerte. Injectez une donnée incohérente côté agent, puis synchronisez.</p>'}</section>`;
+V.nat=()=>{const a=agg(),tot=SIM.reduce((s,r)=>({n:s.n+r[1],h:s.h+r[2],t:s.t+r[3]}),{n:a.n,h:a.hp,t:a.kg/1000});
+ return `<h2>Vue nationale agrégée</h2><div class="kpis">${kp(fmt(tot.n),'producteurs recensés')}${kp(fmt(tot.h)+' ha','superficie prévue')}${kp(fmt(tot.t)+' t','production déclarée')}${kp(S.A.filter(x=>x.st!='Vérifiée').length,'alertes ouvertes')}</div>
+ <section class="card"><div class="tw"><table><tr><th>Région</th><th>Producteurs</th><th>ha prévus</th><th>Production</th><th>Source</th></tr>
+ <tr><td>Hauts-Bassins</td><td>${fmt(a.n)}</td><td>${fmt(a.hp)}</td><td>${fmt(a.kg/1000)} t</td><td><span class="b">Données réelles de la démo</span></td></tr>
+ ${SIM.map(r=>`<tr><td>${r[0]}</td><td>${fmt(r[1])}</td><td>${fmt(r[2])}</td><td>${fmt(r[3])} t</td><td><span class="b w">Simulée</span></td></tr>`).join('')}</table></div></section>
+ ${terr(2)}<section class="card"><h2>Envoyer une orientation aux régions</h2><form onsubmit="sendMsg(event)"><textarea name="m" rows="2" placeholder="Ex. : priorité aux zones à forte demande en engrais"></textarea>
+ <div class="row"><button>Envoyer</button></div></form></section>`};
+V.journal=()=>{const JR=S.role=='agent'?S.Jr.filter(j=>j.u==S.user):S.Jr;return `<section class="card"><h2>Historique des opérations</h2>${JR.length?`<div class="tw"><table><tr><th>Date</th><th>Auteur</th><th>Action</th><th>Détail</th></tr>
+ ${JR.slice(0,80).map(j=>`<tr><td>${new Date(j.t).toLocaleString('fr-FR')}</td><td>${j.who}</td><td><span class="b">${j.act}</span></td><td>${esc(j.det)}</td></tr>`).join('')}</table></div>`:'<p>Aucune opération pour le moment.</p>'}</section>`};
+
+function alloue(){const st=+$('#stk').value;if(!(st>0)){toast('Indiquez le stock d’engrais disponible (kg).');return}
+ const ok=S.P.filter(p=>p.srv&&!held(p)),bes=ok.reduce((x,p)=>x+p.srv.e,0);if(!bes){toast('Aucun besoin validé pour le moment.');return}
+ const t=Math.min(1,st/bes);
+ go(()=>{S.stock=st;S.P.forEach(p=>{if(p.srv){p.al=held(p)?0:Math.round(p.srv.e*t);if(!p.code)p.code=String(1000+Math.floor(Math.random()*9000));hist(p,'ALLOCATION',fmt(p.al)+' kg alloués')}});
+  log('ALLOCATION','Stock de '+fmt(st)+' kg pour un besoin validé de '+fmt(bes)+' kg : couverture '+Math.round(t*100)+' %')});}
+function remet(id){const p=S.P.find(x=>x.id==id),q=+$('#q'+id).value;
+ if($('#c'+id).value.trim()!=p.code){toast('Code de confirmation du producteur incorrect.');return}
+ if(!(q>0)||q>p.al-p.di){toast('Quantité invalide : '+fmt(p.al-p.di)+' kg restent à remettre.');return}
+ go(()=>{p.di+=q;hist(p,'DISTRIBUTION',fmt(q)+' kg remis, confirmés par le producteur');log('DISTRIBUTION',p.nom+' : '+fmt(q)+' kg remis et confirmés')})}
+function sel(id){go(()=>S.sel=id)}
+function filt(){go(()=>{S.f={q:$('#fq').value.trim().toLowerCase(),z:$('#fz').value,v:$('#fv').value,a:$('#fa').value}})}
+function entente(){let n=0;go(()=>{mine().slice(0,15).forEach(p=>{p.e=Math.round(p.hp*PL[p.c]*2.5);hist(p,'MISE À JOUR','Besoin en engrais révisé à '+fmt(p.e)+' kg');n++});log('MISE À JOUR',n+' besoins en engrais révisés à la hausse (simulation d’entente)')});toast(n+' besoins gonflés. Synchronisez pour lancer les contrôles.')}
+V.dist=()=>{const L=mine().filter(p=>p.al>0);return `<section class="card"><h2>Distribution d’intrants</h2>
+ <p>L’engrais n’est remis que sur confirmation du producteur, grâce à son code personnel (en déploiement réel : envoyé par SMS ou fiche papier, que l’agent ne voit pas). En démo, le code s’affiche dans la dernière colonne.</p>
+ ${L.length?`<div class="tw"><table><tr><th>Producteur</th><th>Alloué</th><th>Remis</th><th>Quantité (kg)</th><th>Code producteur</th><th></th><th>Code (démo)</th></tr>
+ ${L.map(p=>`<tr><td>${esc(p.nom)}</td><td>${fmt(p.al)} kg</td><td>${fmt(p.di)} kg</td><td><input id="q${p.id}" type="number" min="1" style="width:90px"></td><td><input id="c${p.id}" style="width:80px" inputmode="numeric"></td>
+ <td><button class="sm" type="button" onclick="remet('${p.id}')">Remettre</button></td><td><small>${p.code}</small></td></tr>`).join('')}</table></div>`:'<p>Aucune allocation reçue pour votre zone. Le responsable régional doit d’abord répartir le stock.</p>'}</section>`};
+V.alloc=()=>{const P=S.P.filter(p=>p.srv),ok=P.filter(p=>!held(p)),bes=ok.reduce((x,p)=>x+p.srv.e,0),al=P.reduce((x,p)=>x+(p.al||0),0),di=P.reduce((x,p)=>x+p.srv.di,0);
+ const ag={};P.forEach(p=>{const a=ag[p.by]=ag[p.by]||{n:0,e:0,hp:0,b:0,al:0,di:0};a.n++;a.e+=p.srv.e;a.hp+=p.srv.hp;a.b+=S.A.some(x=>x.pid==p.id&&x.ty=='besoin')?1:0;a.al+=p.al||0;a.di+=p.srv.di});
+ return `<h2>Allocation d’engrais</h2><p class="note">Quand le stock est inférieur au besoin validé, il est réparti au prorata : chacun reçoit le même pourcentage de son besoin. Les besoins signalés comme excessifs sont mis en attente jusqu’à vérification humaine.</p>
+ <div class="kpis">${kp(fmt(bes)+' kg','besoin validé')}${kp(S.stock?fmt(S.stock)+' kg':'—','stock disponible')}${kp(bes&&S.stock?Math.round(Math.min(1,S.stock/bes)*100)+' %':'—','couverture du besoin')}${kp(fmt(al)+' kg','alloué')}${kp(al?Math.round(di/al*100)+' %':'—','remis et confirmé')}${kp(P.length-ok.length,'besoins en attente de vérification')}</div>
+ <section class="card"><h2>Répartir le stock</h2><div class="grid"><div><label for="stk">Stock d’engrais disponible pour la région (kg)</label><input id="stk" type="number" min="1" value="${S.stock||''}"></div><button type="button" onclick="alloue()">Calculer l’allocation</button></div></section>
+ <section class="card"><h2>Contrôle par agent</h2><p>Indicateur pour orienter les vérifications et les audits, pas une accusation.</p>
+ ${P.length?`<div class="tw"><table><tr><th>Agent</th><th>Producteurs</th><th>Engrais demandé / ha</th><th>Besoins signalés</th><th>Alloué</th><th>Remis</th><th></th></tr>
+ ${Object.keys(ag).map(k=>{const a=ag[k],r=a.b/a.n;return `<tr><td>${esc(aname(k))}</td><td>${a.n}</td><td>${fmt(a.e/a.hp)} kg</td><td>${Math.round(r*100)} %</td><td>${fmt(a.al)} kg</td><td>${fmt(a.di)} kg</td><td>${r>=.1?'<span class="b r">À auditer</span>':'<span class="b">Normal</span>'}</td></tr>`}).join('')}</table></div>`:'<p>Aucune donnée synchronisée.</p>'}</section>`};
+function ficheHtml(p){const q=p.srv,y=q.kg!=null?q.kg/q.hr:null,r=REF[q.c],L=S.L.filter(l=>l.pid==p.id&&l.srv),A=S.A.filter(a=>a.pid==p.id);
+ const et=!p.al?'Non alloué':q.di>=p.al?'Remis en totalité':q.di>0?'Partiellement remis':'Alloué, pas encore remis';
+ return `<section class="card"><div class="row" style="justify-content:space-between;margin:0"><h2>${esc(q.nom)}</h2><button class="alt sm" type="button" onclick="sel(null)">Fermer</button></div>
+ <p>Hauts-Bassins › ${esc(prov(q.z))} › ${esc(q.z)} › ${esc(q.v||'?')} · recensé par ${esc(aname(p.by))} le ${new Date(p.t).toLocaleDateString('fr-FR')} · ${A.some(a=>a.st!='Vérifiée')?'<span class="b w">À vérifier</span>':'<span class="b">Aucune alerte ouverte</span>'}</p>
+ <div class="kpis">${kp(q.c,'culture')}${kp(q.hp+' ha','superficie prévue')}${kp(q.hr!=null?q.hr+' ha':'—','superficie réelle')}${kp(fmt(q.e)+' kg','engrais demandé (plafond '+fmt(PL[q.c]*q.hp)+')')}${kp(fmt(q.l)+' ha','à labourer au tracteur')}${kp(q.kg!=null?fmt(q.kg)+' kg':'—','production')}${kp(y?fmt(y)+' kg/ha':'—','rendement (plage '+r[0]+'–'+r[1]+')')}${kp(q.d||'—','difficulté signalée')}</div>
+ <h3>Intrants</h3><p>${et} · alloué ${fmt(p.al||0)} kg · remis ${fmt(q.di)} kg</p>
+ <h3>Lots suivis</h3>${L.length?L.map(l=>`<p>${l.id} · ${fmt(l.srv.q)} kg · ${fmt(l.srv.d)} kg disponibles</p>`).join(''):'<p>Aucun lot.</p>'}
+ <h3>Alertes</h3>${A.length?A.map(a=>`<p><span class="b${stCls(a.st)}">${a.st}</span> ${esc(a.msg)}${a.just?'<br><i>Justification : '+esc(a.just)+'</i>':''}</p>`).join(''):'<p>Aucune alerte.</p>'}
+ <h3>Historique de l’enregistrement</h3><div class="tw"><table>${p.h.slice().reverse().slice(0,15).map(h=>`<tr><td>${new Date(h.t).toLocaleString('fr-FR')}</td><td>${esc(h.who)}</td><td>${h.act}</td><td>${esc(h.det)}</td></tr>`).join('')}</table></div></section>`}
+V.prod=()=>{const f=S.f||{q:'',z:'',a:''},P=S.P.filter(p=>p.srv),zs=[...new Set(P.map(p=>p.z))],vs=[...new Set(P.filter(p=>!f.z||p.z==f.z).map(p=>p.srv.v).filter(Boolean))],nal=p=>S.A.filter(a=>a.pid==p.id&&a.st!='Vérifiée').length;
+ const L=P.filter(p=>(!f.q||p.nom.toLowerCase().includes(f.q))&&(!f.z||p.z==f.z)&&(!f.v||p.srv.v==f.v)&&(f.a!='alerte'||nal(p)>0)&&(f.a!='att'||held(p)));
+ const sp=S.sel&&S.P.find(p=>p.id==S.sel&&p.srv);
+ return `${sp?ficheHtml(sp):''}<section class="card"><h2>Producteurs enregistrés (${L.length})</h2>
+ <div class="grid"><div><label for="fq">Nom</label><input id="fq" value="${esc(f.q)}"></div>
+ <div><label for="fz">Commune</label><select id="fz"><option value="">Toutes</option>${zs.map(z=>`<option${f.z==z?' selected':''}>${esc(z)}</option>`).join('')}</select></div>
+ <div><label for="fv">Village</label><select id="fv"><option value="">Tous</option>${vs.map(v=>`<option${f.v==v?' selected':''}>${esc(v)}</option>`).join('')}</select></div>
+ <div><label for="fa">Statut</label><select id="fa"><option value="">Tous</option><option value="alerte"${f.a=='alerte'?' selected':''}>Avec alerte ouverte</option><option value="att"${f.a=='att'?' selected':''}>Besoin en attente</option></select></div>
+ <button type="button" onclick="filt()">Filtrer</button></div>
+ ${L.length?`<div class="tw"><table><tr><th>Producteur</th><th>Commune / village</th><th>Culture</th><th>ha prévus</th><th>Engrais</th><th>Alloué / remis</th><th>État</th><th></th></tr>
+ ${L.slice(0,50).map(p=>`<tr><td>${esc(p.nom)}</td><td>${esc(p.z)} / ${esc(p.srv.v||'?')}</td><td>${p.srv.c}</td><td>${p.srv.hp}</td><td>${fmt(p.srv.e)} kg</td><td>${fmt(p.al||0)} / ${fmt(p.srv.di)}</td>
+ <td>${nal(p)?`<span class="b w">${nal(p)} alerte(s)</span>`:'<span class="b">RAS</span>'}</td><td><button class="alt sm" type="button" onclick="sel('${p.id}')">Fiche</button></td></tr>`).join('')}</table></div>${L.length>50?'<p>50 premiers résultats : affinez avec les filtres.</p>':''}`:'<p>Aucun producteur synchronisé ne correspond.</p>'}</section>`};
+
+function terr(max=3){const P=S.P.filter(p=>p.srv),T={};
+ P.forEach(p=>{const q=p.srv,pr=prov(q.z),o=S.A.filter(a=>a.pid==p.id&&a.st!='Vérifiée').length;
+  [pr,pr+'|'+q.z,pr+'|'+q.z+'|'+(q.v||'?')].forEach(k=>{const r=T[k]=T[k]||{n:0,hp:0,e:0,kg:0,o:0};r.n++;r.hp+=q.hp;r.e+=q.e;r.kg+=q.kg||0;r.o+=o})});
+ const K=Object.keys(T).sort().filter(k=>k.split('|').length<=max),LV=['Province','Commune','Village'];
+ return `<section class="card"><h2>Répartition territoriale</h2><p>Hauts-Bassins › province › commune › village. Villages de démonstration, à remplacer par le référentiel officiel.</p>
+ ${K.length?`<div class="tw"><table><tr><th>Territoire</th><th>Producteurs</th><th>ha prévus</th><th>Engrais demandé</th><th>Production</th><th>Alertes ouvertes</th></tr>
+ ${K.map(k=>{const p=k.split('|'),r=T[k],l=p.length;return `<tr><td style="padding-left:${8+(l-1)*20}px;${l==1?'font-weight:700':''}">${esc(p[l-1])} <small>${LV[l-1]}</small></td><td>${r.n}</td><td>${fmt(r.hp)}</td><td>${fmt(r.e)} kg</td><td>${r.kg?fmt(r.kg/1000)+' t':'—'}</td><td>${r.o?`<span class="b w">${r.o}</span>`:'0'}</td></tr>`}).join('')}</table></div>`:'<p>Aucune donnée synchronisée.</p>'}</section>`}
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+
+function render(){const u=cur(),n=$('#net');
+ $('#who').textContent=u?u.name+' · '+ROLES[u.role].n:'';$('#out').style.display=u?'':'none';n.style.display=u&&u.role=='agent'?'':'none';
+ if(!u){$('#nav').innerHTML='';$('#main').innerHTML=V.login();return}
+ const R=ROLES[S.role];if(!R.tabs.some(t=>t[0]==S.tab))S.tab=R.tabs[0][0];
+ n.className='net'+(S.online?'':' off');n.textContent=S.online?'En ligne':'Hors-ligne ('+pend()+' en attente)';
+ const nA=S.A.filter(a=>a.st!='Vérifiée').length;
+ $('#nav').innerHTML=R.tabs.map(t=>`<button type="button" class="${t[0]==S.tab?'on':''}" onclick="go(()=>S.tab='${t[0]}')">${t[1]}${t[0]=='alertes'&&nA?' ('+nA+')':''}</button>`).join('');
+ const y=scrollY;$('#main').innerHTML=V[S.tab]();scrollTo(0,y)}
+$('#net').onclick=()=>{S.online=!S.online;log('RÉSEAU',S.online?'Connexion rétablie':'Passage en mode hors-ligne');
+ if(S.online&&pend()){sync();save();render();return}save();render();toast(S.online?'Connexion rétablie':'Mode hors-ligne : la saisie continue localement')};
+S=load();render();
+</script>
+</body>
+</html>
