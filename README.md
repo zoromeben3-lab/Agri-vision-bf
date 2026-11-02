@@ -5,7 +5,7 @@
 Projet présenté au **Hackathon des Universités – 21e édition (Semaine du numérique 2026)**,
 thème : *Souveraineté technologique – Accélérer la transformation digitale sécurisée et inclusive*.
 
-**Démo en ligne :** https://VOTRE-COMPTE.github.io/agrivision-bf/
+**Démo en ligne :** https://zoromeben3-lab.github.io/Agri-vision-bf/
 **Dossier de candidature :** [`docs/dossier-candidature.pdf`](docs/dossier-candidature.pdf)
 
 ---
